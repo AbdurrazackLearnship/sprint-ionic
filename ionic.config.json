@@ -1,0 +1,7 @@
+{
+  "name": "Sprint",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
