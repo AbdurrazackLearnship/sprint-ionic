@@ -1,0 +1,35 @@
+
+* {
+    box-sizing: border-box;
+}
+.LoginBody {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 0 10px;
+}
+.card-body {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 19vh auto;
+    max-width: 350px;
+}
+.textFieldMargin {
+    padding: 6px 10px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+.buttonsBlock {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+.ion-content-style{
+    text-align: center;
+}
+.MuiInputLabel-formControl {
+    top: 10px !important; 
+    left: 10px !important;
+}

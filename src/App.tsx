@@ -33,11 +33,20 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Login from './pages/Login/Login';
+import Home from './pages/Home/Home';
+import Activity from './pages/Activity/Activity';
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonTabs>
+    <IonRouterOutlet>
+          <Route path="/home" component={Home} exact={true} />
+          <Route path="/login" component={Login} exact={true} />
+          <Route path="/activity" component={Activity} exact={true} />
+          <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
+        </IonRouterOutlet>
+      {/* <IonTabs>
         <IonRouterOutlet>
           <Route path="/tab1" component={Tab1} exact={true} />
           <Route path="/tab2" component={Tab2} exact={true} />
@@ -58,7 +67,7 @@ const App: React.FC = () => (
             <IonLabel>Tab 3</IonLabel>
           </IonTabButton>
         </IonTabBar>
-      </IonTabs>
+      </IonTabs> */}
     </IonReactRouter>
   </IonApp>
 );
