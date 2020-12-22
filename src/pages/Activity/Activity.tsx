@@ -1,14 +1,20 @@
-import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './Activity.css';
-import { Button } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import "./Activity.css";
+import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
-const Activity: React.FC = () => {
+const Activity = (props: any): any => {
   const history = useHistory();
   const gotoHome = () => {
-    history.push("/home")
-  }
+    history.push("/home");
+  };
   return (
     <IonPage>
       <IonHeader>
@@ -22,9 +28,7 @@ const Activity: React.FC = () => {
             <IonTitle size="large">Welcome Home</IonTitle>
           </IonToolbar>
         </IonHeader> */}
-        <Button>
-          Activity
-        </Button>
+        <Button>Activity</Button>
       </IonContent>
     </IonPage>
   );

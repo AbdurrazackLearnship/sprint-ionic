@@ -1,14 +1,30 @@
-import React from 'react';
-import { IonButton, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { Redirect, Route, Switch, useHistory, useLocation } from "react-router-dom";
-import './Home.css';
-import { Button } from '@material-ui/core';
+import React from "react";
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import {
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
+import "./Home.css";
+import { Button } from "@material-ui/core";
 
-const Home: React.FC = () => {
+const Home = (props: any): any => {
   const history = useHistory();
   const gotoHome = () => {
-    history.push("/home")
-  }
+    history.push("/home");
+  };
   return (
     <IonPage>
       <IonHeader>
@@ -16,14 +32,14 @@ const Home: React.FC = () => {
           <IonTitle onClick={gotoHome}>Welcome</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen={true}>        
+      <IonContent fullscreen={true}>
         <IonButton routerLink="/activity">Go to Activity</IonButton>
-      {/* <IonList>
+        {/* <IonList>
           <IonItem routerLink="/activity">
             <IonLabel>go to Activity Player</IonLabel>
           </IonItem>
         </IonList> */}
-      </IonContent>      
+      </IonContent>
     </IonPage>
   );
 };
