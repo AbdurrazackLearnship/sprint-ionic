@@ -13,7 +13,7 @@ import "./Activity.css";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
-const Activity: React.FC = () => {
+const Activity = (props: any): any => {
   const history = useHistory();
   const [finalViewFillClick, setFinalViewFillClick] = useState();
   const [finalCommonView, setFinalCommonView] = useState();
