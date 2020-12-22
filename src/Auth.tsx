@@ -112,7 +112,9 @@ const Auth = (props: any) => {
             await dispatch(commonActions.setUserAuthenticated(true));
             setIsAuthenticating(false);
             isAuthenticatingLocal = false;
-            pushRecordedURL();
+            console.log("343433434")
+            // history.push('/home')
+            // pushRecordedURL();
             // callback(response);
           } else {
             setIsAuthenticating(false);
@@ -377,7 +379,7 @@ const Auth = (props: any) => {
     // }
   };
 
-  const authenticateInput = (credentials: userCred) => {
+  const authenticateInput = (credentials: userCred,loginCallback: Function) => {
     setIsAuthenticating(true);
     isAuthenticatingLocal = true;
     setAuthComingFromLoginPopup(true);
@@ -406,12 +408,12 @@ const Auth = (props: any) => {
         });
         const lgId: string = result.idToken.payload["custom:geId"] || "0";
         const leuId: string = result.idToken.payload["custom:edgeUid"] || "0";
-        const luuId: string = result.idToken.payload["cognito:username"] || "0";
-        setCookies(`uId`, leuId);
+        const luuId: string = result.idToken.payload["cognito:username"] || "0";        
         setIsAuthenticating(false);
         isAuthenticatingLocal = false;
         triggerInitAPICache(lgId, leuId, luuId);
-        setStateResult(result);
+        setStateResult(result);  
+        loginCallback(true);      
         //window.location.href = `${window.location.protocol}//${window.location.host}/home`;
       },
       onFailure: async function (err: Error) {
@@ -422,6 +424,7 @@ const Auth = (props: any) => {
         await dispatch(
           commonActions.setUserAuthenticationFailReason("COGNITO_LOGIN_FAILED")
         );
+        loginCallback(false);      
       },
 
       // /**
@@ -437,43 +440,39 @@ const Auth = (props: any) => {
   };
 
   const clearAuthentication = async (clearRedirectURL?: boolean) => {
-    if (!clearRedirectURL) {
-      if (isAuthenticatingLocal) {
-        setTimeout(() => {
-          clearAuthentication(clearRedirectURL);
-        }, 1500);
-      } else {
-        if (
-          !!!allInfo.common.isLoading &&
-          !!!allInfo.common.isUserAuthenticated &&
-          !!!isAuthenticatingLocal
-        ) {
-          setTimeout(() => {
-            let decodedURL = decodeURIComponent(window.location.href);
-            let redURL = decodedURL.slice(
-              decodedURL.indexOf("redirectUrl") + "redirectUrl".length + 1
-            );
-            sessionStorage.removeItem("rURL");
-            sessionStorage.removeItem("rURLf");
-          }, 1000);
-        }
-      }
-    }
-    //await dispatch(allActions.globalActions.logoutSession());
-    //await dispatch(allActions.tmsCoursesAction.callTMSLogOut());
-    setStateResult({});
-    if (clearRedirectURL) {
-      sessionStorage.clear();
-    } else {
-      let rURLf = sessionStorage.getItem("rURLf") || "";
-      let rURL = sessionStorage.getItem("rURL") || "";
-      sessionStorage.clear();
-      sessionStorage.setItem("rURL", rURL);
-      sessionStorage.setItem("rURLf", rURLf);
-    }
-    removeCookie();
-    // setCookies(`${process.env.REACT_APP_COOKIE_POLICY}`, 1);
-    // window.location.href = `${window.location.protocol}//${window.location.host}/`;
+    // if (!clearRedirectURL) {
+    //   if (isAuthenticatingLocal) {
+    //     setTimeout(() => {
+    //       clearAuthentication(clearRedirectURL);
+    //     }, 1500);
+    //   } else {
+    //     if (
+    //       !!!allInfo.common.isLoading &&
+    //       !!!allInfo.common.isUserAuthenticated &&
+    //       !!!isAuthenticatingLocal
+    //     ) {
+    //       setTimeout(() => {
+    //         let decodedURL = decodeURIComponent(window.location.href);
+    //         let redURL = decodedURL.slice(
+    //           decodedURL.indexOf("redirectUrl") + "redirectUrl".length + 1
+    //         );
+    //         sessionStorage.removeItem("rURL");
+    //         sessionStorage.removeItem("rURLf");
+    //       }, 1000);
+    //     }
+    //   }
+    // }
+    // setStateResult({});
+    // if (clearRedirectURL) {
+    //   sessionStorage.clear();
+    // } else {
+    //   let rURLf = sessionStorage.getItem("rURLf") || "";
+    //   let rURL = sessionStorage.getItem("rURL") || "";
+    //   sessionStorage.clear();
+    //   sessionStorage.setItem("rURL", rURL);
+    //   sessionStorage.setItem("rURLf", rURLf);
+    // }
+    // removeCookie();
   };
 
   const handleInitCallFailed = async () => {
@@ -495,12 +494,12 @@ const Auth = (props: any) => {
     //   await dispatch(allActions.learnerTasksAction.getLearnerTasks(leuId));
     // }
     //console.log(allInfo);
-    if (!!!allInfo.portalLogin.data) {
-      await dispatch(portalLoginAction.getPortalLogin(leuId, lgId));
-    }
-    if (!!!allInfo.jwkPublicKey.data) {
-      await dispatch(jwkPublicKeyAction.getJwkPublicKey());
-    }
+    // if (!!!allInfo.portalLogin.data) {
+    //   await dispatch(portalLoginAction.getPortalLogin(leuId, lgId));
+    // }
+    // if (!!!allInfo.jwkPublicKey.data) {
+    //   await dispatch(jwkPublicKeyAction.getJwkPublicKey());
+    // }
     //await dispatch(jwkPublicKeyAction.getJwkPublicKey());
     //await dispatch(commonActions.setUserInitialInformation(lgId, luuId, leuId));
     //await dispatch(peopleInformationActions.getStorePeopleInfo(lgId));

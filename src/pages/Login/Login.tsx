@@ -4,6 +4,9 @@ import {
   IonCard,
   IonContent,
   IonHeader,
+  IonInput,
+  IonItem,
+  IonLabel,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -19,6 +22,7 @@ const Login = (props: any): any => {
   const [showLoginLoader, setShowLoginLoader] = useState(false);
   const [loginUsernameInput, setLoginUsernameInput] = useState("");
   const [loginPasswordInput, setLoginPasswordInput] = useState("");
+  const [uNAME, setUNAME] = useState("");
   const history = useHistory();
   const disableSubmitButton = (shouldDisable: boolean) => {
     setDisableSubmit(shouldDisable);
@@ -36,28 +40,51 @@ const Login = (props: any): any => {
     }
   }, [loginUsernameInput, loginPasswordInput]);
 
+  const loginCallback = (resultBoolean: boolean) => {
+    setShowLoginLoader(false);
+    resultBoolean ? history.push('/home') : history.push('/login')
+  }
+
   const handleLoginClick = () => {
-    setShowLoginLoader(true);
-    props.authProps.authenticateInput({
+    setShowLoginLoader(true);    
+    let abc = props.authProps.authenticateInput({
       username: loginUsernameInput || "",
       password: loginPasswordInput || "",
-    });
+    },loginCallback);
+    console.log(abc);
   };
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Login</IonTitle>
+          <IonTitle><img className="logo-icon" src='assets/Logo-Animation-Alpha.gif' /></IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent scrollEvents={true} className="ion-content-style">
-        <IonCard className="card-body">
+        <IonCard className="card-body">          
           <div className="LoginBody">
             <form className="login-form" noValidate autoComplete="off">
-              <TextField
+            <IonItem>
+              <IonLabel position="floating">Username/Email</IonLabel>
+              <IonInput 
+              color="secondary"
+              onIonChange={(e: any) => setLoginUsernameInput(e.detail.value)}
+              id="lEmail"
+              ></IonInput>
+            </IonItem>
+            <IonItem>
+              <IonLabel position="floating">Password</IonLabel>
+              <IonInput 
+              type="password"
+              color="secondary"
+              onIonChange={(e: any) => setLoginPasswordInput(e.detail.value)}
+              id="lEmail"
+              ></IonInput>
+            </IonItem>
+              {/* <TextField
                 error={credFailed}
-                id="lEmail"
+                id="lEmail1"
                 label={"Username"}
                 className="textFieldMargin"
                 onChange={(e) => setLoginUsernameInput(e.target.value)}
@@ -66,7 +93,7 @@ const Login = (props: any): any => {
                 fullWidth
                 margin="normal"
                 size="medium"
-                color="primary"
+                color="secondary"
                 inputProps={{
                   maxLength: 254,
                 }}
@@ -90,18 +117,18 @@ const Login = (props: any): any => {
                 fullWidth
                 margin="normal"
                 size="medium"
-                color="primary"
+                color="secondary"
                 inputProps={{
                   maxLength: 32,
                 }}
-              />
+              /> */}
             </form>
 
             <div className="buttonsBlock loginB text-right">
               <IonButton
                 className="loaderButton"
-                expand="full"
-                color="primary"
+                expand="block"
+                color="secondary"
                 onClick={handleLoginClick}
                 disabled={disableSubmit || showLoginLoader}
               >
@@ -111,7 +138,7 @@ const Login = (props: any): any => {
                     color="secondary"
                   ></CircularProgress>
                 ) : (
-                  <React.Fragment>Continue</React.Fragment>
+                  <React.Fragment>Login</React.Fragment>
                 )}
               </IonButton>
             </div>

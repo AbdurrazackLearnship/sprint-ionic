@@ -12,7 +12,7 @@
     min-width: 70px;
     text-align: center;
     float: none;
-    margin: 0 auto;
+    margin: 0 0 0 40px;
 }
 .gapClickUI.is-active {
     border: 1px solid #ccc;
@@ -66,4 +66,10 @@
 }
 .fillGapsClickOptionsContainer.disabled {
     opacity: 0.5;
+}
+.buttons-container {
+    display: inline-block;
+    width: 100%;
+    padding: 15px;
+    text-align: right;
 }

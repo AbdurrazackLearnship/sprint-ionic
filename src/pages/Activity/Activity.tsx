@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
   IonButton,
+  IonButtons,
   IonChip,
   IonContent,
   IonHeader,
+  IonIcon,
   IonLabel,
+  IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -12,6 +15,8 @@ import {
 import "./Activity.css";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import Menu from "../../components/shared/Menu/Menu";
+import { checkmark, refresh } from "ionicons/icons";
 
 const Activity = (props: any): any => {
   const history = useHistory();
@@ -192,7 +197,7 @@ const Activity = (props: any): any => {
   };
 
   const resetGapClick = () => {
-    const allElements: any = document.querySelectorAll('.gapClickUI');
+    const allElements: any = document.querySelectorAll(".gapClickUI");
     disableUserInteraction(false);
     for (let i = 0; i < allElements.length; i++) {
       allElements[i].classList.remove("is-active");
@@ -202,8 +207,8 @@ const Activity = (props: any): any => {
       allElements[i].setAttribute("custom-chosen-opt", "-1");
     }
     allElements[0].classList.add("is-active");
-    const optionsList: any = document.querySelectorAll('.gapClickOption');
-    for(let j=0; j < optionsList.length; j++){
+    const optionsList: any = document.querySelectorAll(".gapClickOption");
+    for (let j = 0; j < optionsList.length; j++) {
       optionsList[j].classList.remove("hideOption");
     }
   };
@@ -293,8 +298,11 @@ const Activity = (props: any): any => {
     question: any
   ) => {
     // setFinalViewFillClick(renderedRows);
-    fillClickOptionsList = fillClickOptionsList.sort( () => Math.random() - 0.5);
-    console.log("fillClickOptionsList", fillClickOptionsList.sort( () => Math.random() - 0.5))
+    fillClickOptionsList = fillClickOptionsList.sort(() => Math.random() - 0.5);
+    console.log(
+      "fillClickOptionsList",
+      fillClickOptionsList.sort(() => Math.random() - 0.5)
+    );
     const finalRender: any = (
       <div className="fillGapsWholeContainer">
         {renderedQuestionRow}
@@ -319,38 +327,57 @@ const Activity = (props: any): any => {
     console.log("question", question);
   };
   const disableUserInteraction = (shouldDisable: boolean) => {
-    if(shouldDisable){
-      document.getElementsByClassName('fillGapsClickOptionsContainer')[0].classList.add('disabled');
-      document.getElementsByClassName('fillGapsWholeContainer')[0].classList.add('disabled');
-    }  else {
-      document.getElementsByClassName('fillGapsClickOptionsContainer')[0].classList.remove('disabled');
-      document.getElementsByClassName('fillGapsWholeContainer')[0].classList.remove('disabled');
+    if (shouldDisable) {
+      document
+        .getElementsByClassName("fillGapsClickOptionsContainer")[0]
+        .classList.add("disabled");
+      document
+        .getElementsByClassName("fillGapsWholeContainer")[0]
+        .classList.add("disabled");
+    } else {
+      document
+        .getElementsByClassName("fillGapsClickOptionsContainer")[0]
+        .classList.remove("disabled");
+      document
+        .getElementsByClassName("fillGapsWholeContainer")[0]
+        .classList.remove("disabled");
     }
-  }
+  };
   const checkAnswers = () => {
     let orgFillClickOptionsList: any = [];
-    let finalCheckArr:any = [];
+    let finalCheckArr: any = [];
     disableUserInteraction(true);
-    console.log("OA",overallQuestions[currentQuestionIndex].config.items);
-    orgFillClickOptionsList = overallQuestions[currentQuestionIndex].config.items;
-    orgFillClickOptionsList.sort((a:any,b:any) => (a.itemId > b.itemId) ? 1 : ((b.itemId > a.itemId) ? -1 : 0)); 
-    console.log("OAT", orgFillClickOptionsList)
-    orgFillClickOptionsList.map((orgItem: any)=>{ 
-      console.log("333")
-      let currentGapUI: any = document.getElementById(`gapClickUI_${orgItem.itemId}`)!;
-      (currentGapUI?.getAttribute('custom-chosen-opt') === `${orgItem.itemId}`)?currentGapUI.classList.add('ans-right'):currentGapUI.classList.add('ans-wrong');
-      let checkObj:any = {
-        scoring:{
-          current:(currentGapUI?.getAttribute('custom-chosen-opt') === `${orgItem.itemId}`)?orgItem.scoring[0].points:0,
-          max:orgItem.scoring[0].points,
+    console.log("OA", overallQuestions[currentQuestionIndex].config.items);
+    orgFillClickOptionsList =
+      overallQuestions[currentQuestionIndex].config.items;
+    orgFillClickOptionsList.sort((a: any, b: any) =>
+      a.itemId > b.itemId ? 1 : b.itemId > a.itemId ? -1 : 0
+    );
+    console.log("OAT", orgFillClickOptionsList);
+    orgFillClickOptionsList.map((orgItem: any) => {
+      console.log("333");
+      let currentGapUI: any = document.getElementById(
+        `gapClickUI_${orgItem.itemId}`
+      )!;
+      currentGapUI?.getAttribute("custom-chosen-opt") === `${orgItem.itemId}`
+        ? currentGapUI.classList.add("ans-right")
+        : currentGapUI.classList.add("ans-wrong");
+      let checkObj: any = {
+        scoring: {
+          current:
+            currentGapUI?.getAttribute("custom-chosen-opt") ===
+            `${orgItem.itemId}`
+              ? orgItem.scoring[0].points
+              : 0,
+          max: orgItem.scoring[0].points,
           competency: orgItem.scoring[0].competency,
-          label: orgItem.label
-        }
-      }
+          label: orgItem.label,
+        },
+      };
       finalCheckArr.push(checkObj);
-    })
-    console.log("FIN", finalCheckArr)
-  }
+    });
+    console.log("FIN", finalCheckArr);
+  };
   const renderFillInGapsClickQuestions = (question: any) => {
     const questionRows: any = question.config
       ? question.config.content.rows || []
@@ -406,51 +433,58 @@ const Activity = (props: any): any => {
   }, [fillClickOptionsList]);
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle onClick={gotoHome}>Activity Player</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen={false}>
-        <div className="buttons-container">
-          <IonButton
-            className="loaderButton"
-            color="primary"
-            onClick={resetGapClick}
-          >Reset</IonButton>
-          <IonButton
-            className="loaderButton"
-            color="primary"
-            onClick={checkAnswers}
-          >Check</IonButton>
-          
-        </div>
-        <div className="dynamicContent">{finalViewFillClick}</div>
-        <div className="commonContent">
-          {overallQuestions &&
-            overallQuestions.length > 0 &&
-            overallQuestions[currentQuestionIndex].image && (
-              <div>
-                <img src={overallQuestions[currentQuestionIndex].image} />
-              </div>
-            )}
-          {overallQuestions &&
-            overallQuestions.length > 0 &&
-            overallQuestions[currentQuestionIndex].jw_video && (
-              <div>SHOW VIDEO</div>
-            )}
-          {overallQuestions &&
-            overallQuestions.length > 0 &&
-            overallQuestions[currentQuestionIndex].audio && (
-              <div>SHOW AUDIO</div>
-            )}
+      {/* <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonMenuButton></IonMenuButton>
+            </IonButtons>
+            <IonTitle>Inbox</IonTitle>
+          </IonToolbar>
+        </IonHeader> */}
+      <IonContent fullscreen={true}>
+        <div className="main-content-container">
+          <div className="dynamicContent">{finalViewFillClick}</div>
+          <div className="commonContent">
+            {overallQuestions &&
+              overallQuestions.length > 0 &&
+              overallQuestions[currentQuestionIndex].image && (
+                <div>
+                  <img src={overallQuestions[currentQuestionIndex].image} />
+                </div>
+              )}
+            {overallQuestions &&
+              overallQuestions.length > 0 &&
+              overallQuestions[currentQuestionIndex].jw_video && (
+                <div>SHOW VIDEO</div>
+              )}
+            {overallQuestions &&
+              overallQuestions.length > 0 &&
+              overallQuestions[currentQuestionIndex].audio && (
+                <div>SHOW AUDIO</div>
+              )}
+          </div>
+          <div className="buttons-container">
+            <IonButton
+              className="loaderButton"
+              color="secondary"
+              onClick={resetGapClick}
+            >
+              <IonIcon icon={refresh}></IonIcon>  
+            </IonButton>
+            <IonButton
+              className="loaderButton"
+              color="secondary"
+              onClick={checkAnswers}
+            >
+              <IonIcon icon={checkmark}></IonIcon>              
+            </IonButton>
+          </div>
         </div>
         {/* <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Welcome Home</IonTitle>
           </IonToolbar>
         </IonHeader> */}
-        <Button>Activity</Button>
       </IonContent>
     </IonPage>
   );

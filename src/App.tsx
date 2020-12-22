@@ -1,19 +1,27 @@
-import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Redirect, Route, useLocation } from "react-router-dom";
 import {
   IonApp,
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
   IonIcon,
+  IonItem,
   IonLabel,
+  IonList,
+  IonMenu,
+  IonMenuButton,
+  IonPage,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
+  IonTitle,
+  IonToolbar,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { ellipse, square, triangle } from "ionicons/icons";
-import Tab1 from "./pages/Tab1";
-import Tab2 from "./pages/Tab2";
-import Tab3 from "./pages/Tab3";
+import './App.css';
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -36,23 +44,28 @@ import "./theme/variables.css";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Activity from "./pages/Activity/Activity";
+import Menu from "./components/shared/Menu/Menu";
 
-const App = (props: any, ref: any): any => (
+const App = (props: any, ref: any): any => {
+  const location = useLocation();
+  useEffect(()=>{
+    console.log('l', location);
+  },[window.location.href])
+  return (
   <IonApp>
+    <IonPage>    
     <IonReactRouter>
+    <div className="Ion-page" id="main-content"></div>
+    <Menu pageTitle="Sprint"></Menu>
       <IonRouterOutlet>
-        <Route path="/home">
-          <Home authProps={{ ...props }} />
+        <Route path="/home" component={Home} exact={true}>
         </Route>
-        <Route path="/activity">
-          <Activity authProps={{ ...props }} />
+        <Route path="/activity" component={Activity} exact={true}>
         </Route>
-        <Route path="/login">
+        <Route path="/login" component={Home}>
           <Login authProps={{ ...props }} />
         </Route>
-        <Route path="/">
-          <Login authProps={{ ...props }} />
-        </Route>
+        <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
       </IonRouterOutlet>
       {/* <IonTabs>
         <IonRouterOutlet>
@@ -77,7 +90,9 @@ const App = (props: any, ref: any): any => (
         </IonTabBar>
       </IonTabs> */}
     </IonReactRouter>
+    </IonPage>
   </IonApp>
-);
+  )
+    };
 
 export default App;
