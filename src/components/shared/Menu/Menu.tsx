@@ -26,6 +26,9 @@ const Menu: any = (props: any) => {
     history.push(`/${pageName || ""}`);
   };
   const location = useLocation();
+  const logoClickHandle = () => {
+    history.push("/home");
+  };
   useEffect(() => {
     console.log("lo", location);
   }, [window.location.href]);
@@ -37,7 +40,11 @@ const Menu: any = (props: any) => {
             <IonToolbar color="primary">
               <IonTitle>
                 <IonIcon slot="start" icon={menuOutline}></IonIcon>
-                <img className="logo-icon" src='assets/Sprint-BusinessSkills-WhiteLogo.png' />
+                <img
+                  onClick={logoClickHandle}
+                  className="logo-icon"
+                  src="assets/Sprint-BusinessSkills-WhiteLogo.png"
+                />
               </IonTitle>
               <IonButtons slot="start">
                 <IonMenuButton
@@ -72,10 +79,7 @@ const Menu: any = (props: any) => {
                 >
                   <IonLabel>Activity player</IonLabel>
                 </IonItem>
-                <IonItem
-                  routerLink="/login"
-                  onClick={() => onClickHandler()}
-                >
+                <IonItem routerLink="/login" onClick={() => onClickHandler()}>
                   <IonLabel>Logout</IonLabel>
                 </IonItem>
               </IonList>

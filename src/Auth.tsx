@@ -112,7 +112,7 @@ const Auth = (props: any) => {
             await dispatch(commonActions.setUserAuthenticated(true));
             setIsAuthenticating(false);
             isAuthenticatingLocal = false;
-            console.log("343433434")
+            console.log("343433434");
             // history.push('/home')
             // pushRecordedURL();
             // callback(response);
@@ -379,7 +379,10 @@ const Auth = (props: any) => {
     // }
   };
 
-  const authenticateInput = (credentials: userCred,loginCallback: Function) => {
+  const authenticateInput = (
+    credentials: userCred,
+    loginCallback: Function
+  ) => {
     setIsAuthenticating(true);
     isAuthenticatingLocal = true;
     setAuthComingFromLoginPopup(true);
@@ -408,12 +411,12 @@ const Auth = (props: any) => {
         });
         const lgId: string = result.idToken.payload["custom:geId"] || "0";
         const leuId: string = result.idToken.payload["custom:edgeUid"] || "0";
-        const luuId: string = result.idToken.payload["cognito:username"] || "0";        
+        const luuId: string = result.idToken.payload["cognito:username"] || "0";
         setIsAuthenticating(false);
         isAuthenticatingLocal = false;
         triggerInitAPICache(lgId, leuId, luuId);
-        setStateResult(result);  
-        loginCallback(true);      
+        setStateResult(result);
+        loginCallback(true);
         //window.location.href = `${window.location.protocol}//${window.location.host}/home`;
       },
       onFailure: async function (err: Error) {
@@ -424,7 +427,7 @@ const Auth = (props: any) => {
         await dispatch(
           commonActions.setUserAuthenticationFailReason("COGNITO_LOGIN_FAILED")
         );
-        loginCallback(false);      
+        loginCallback(false);
       },
 
       // /**
@@ -524,7 +527,6 @@ const Auth = (props: any) => {
   }, []);
 
   useEffect(() => {
-    console.log(allInfo);
     if (
       !!!allInfo.common.isLoading &&
       !!!allInfo.peopleInformation.isLoading &&

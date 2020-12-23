@@ -21,7 +21,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import './App.css';
+import "./App.css";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -48,26 +48,28 @@ import Menu from "./components/shared/Menu/Menu";
 
 const App = (props: any, ref: any): any => {
   const location = useLocation();
-  useEffect(()=>{
-    console.log('l', location);
-  },[window.location.href])
+  useEffect(() => {
+    console.log("l", location);
+  }, [window.location.href]);
   return (
-  <IonApp>
-    <IonPage>    
-    <IonReactRouter>
-    <div className="Ion-page" id="main-content"></div>
-    <Menu pageTitle="Sprint"></Menu>
-      <IonRouterOutlet>
-        <Route path="/home" component={Home} exact={true}>
-        </Route>
-        <Route path="/activity" component={Activity} exact={true}>
-        </Route>
-        <Route path="/login" component={Home}>
-          <Login authProps={{ ...props }} />
-        </Route>
-        <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
-      </IonRouterOutlet>
-      {/* <IonTabs>
+    <IonApp>
+      <IonPage>
+        <IonReactRouter>
+          <div className="Ion-page" id="main-content"></div>
+          <Menu pageTitle="Sprint"></Menu>
+          <IonRouterOutlet>
+            <Route path="/home" component={Home} exact={true}></Route>
+            <Route path="/activity" component={Activity} exact={true}></Route>
+            <Route path="/login" component={Home}>
+              <Login authProps={{ ...props }} />
+            </Route>
+            <Route
+              path="/"
+              render={() => <Redirect to="/login" />}
+              exact={true}
+            />
+          </IonRouterOutlet>
+          {/* <IonTabs>
         <IonRouterOutlet>
           <Route path="/tab1" component={Tab1} exact={true} />
           <Route path="/tab2" component={Tab2} exact={true} />
@@ -89,10 +91,10 @@ const App = (props: any, ref: any): any => {
           </IonTabButton>
         </IonTabBar>
       </IonTabs> */}
-    </IonReactRouter>
-    </IonPage>
-  </IonApp>
-  )
-    };
+        </IonReactRouter>
+      </IonPage>
+    </IonApp>
+  );
+};
 
 export default App;

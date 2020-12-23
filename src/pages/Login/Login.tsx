@@ -22,6 +22,7 @@ const Login = (props: any): any => {
   const [showLoginLoader, setShowLoginLoader] = useState(false);
   const [loginUsernameInput, setLoginUsernameInput] = useState("");
   const [loginPasswordInput, setLoginPasswordInput] = useState("");
+  const [loginError, setLoginError] = useState(false);
   const [uNAME, setUNAME] = useState("");
   const history = useHistory();
   const disableSubmitButton = (shouldDisable: boolean) => {
@@ -41,16 +42,21 @@ const Login = (props: any): any => {
   }, [loginUsernameInput, loginPasswordInput]);
 
   const loginCallback = (resultBoolean: boolean) => {
+    setLoginError(!!!resultBoolean);
     setShowLoginLoader(false);
-    resultBoolean ? history.push('/home') : history.push('/login')
-  }
+    resultBoolean ? history.push("/home") : history.push("/login");
+  };
 
   const handleLoginClick = () => {
-    setShowLoginLoader(true);    
-    let abc = props.authProps.authenticateInput({
-      username: loginUsernameInput || "",
-      password: loginPasswordInput || "",
-    },loginCallback);
+    setLoginError(false);
+    setShowLoginLoader(true);
+    let abc = props.authProps.authenticateInput(
+      {
+        username: loginUsernameInput || "",
+        password: loginPasswordInput || "",
+      },
+      loginCallback
+    );
     console.log(abc);
   };
 
@@ -58,30 +64,43 @@ const Login = (props: any): any => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle><img className="logo-icon" src='assets/Logo-Animation-Alpha.gif' /></IonTitle>
+          <IonTitle>
+            <img className="logo-icon" src="assets/Logo-Animation-Alpha.gif" />
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent scrollEvents={true} className="ion-content-style">
-        <IonCard className="card-body">          
+        <IonCard className="card-body">
           <div className="LoginBody">
             <form className="login-form" noValidate autoComplete="off">
-            <IonItem>
-              <IonLabel position="floating">Username/Email</IonLabel>
-              <IonInput 
-              color="secondary"
-              onIonChange={(e: any) => setLoginUsernameInput(e.detail.value)}
-              id="lEmail"
-              ></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonLabel position="floating">Password</IonLabel>
-              <IonInput 
-              type="password"
-              color="secondary"
-              onIonChange={(e: any) => setLoginPasswordInput(e.detail.value)}
-              id="lEmail"
-              ></IonInput>
-            </IonItem>
+              <IonItem>
+                <IonLabel position="floating">Username/Email</IonLabel>
+                <IonInput
+                  color="secondary"
+                  onIonChange={(e: any) =>
+                    setLoginUsernameInput(e.detail.value)
+                  }
+                  id="lEmail"
+                ></IonInput>
+              </IonItem>
+              <IonItem>
+                <IonLabel position="floating">Password</IonLabel>
+                <IonInput
+                  type="password"
+                  color="secondary"
+                  onIonChange={(e: any) =>
+                    setLoginPasswordInput(e.detail.value)
+                  }
+                  id="lEmail"
+                ></IonInput>
+              </IonItem>
+              <div className="error-handle-container">
+                {loginError && (
+                  <div className="login-error">
+                    Username / Password incorrect
+                  </div>
+                )}
+              </div>
               {/* <TextField
                 error={credFailed}
                 id="lEmail1"
